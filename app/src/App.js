@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import axios from 'axios';
 import UserCard from './components/Usercard';
+import FollowerCard from './components/FollowerCard';
 
 export default class App extends Component {
 
@@ -15,20 +16,24 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    const gitApi = `https://api.github.com/users/mpereannor`
+    const gitApi = `https://api.github.com/users/mpereannor`;
 
-    // const gitApiFollowers = `https://api.github.com/users/mpereannor/followers`
+    const gitApiFollowers = `https://api.github.com/users/mpereannor/followers`;
 
     const profile = axios.get(gitApi);
+
+    const followers = axios.get(gitApiFollowers)
 
     profile.then(res =>{
       this.setState({mountedApi: res.data})
         }
     )
 
-    // const followers= axios.get(gitApiFollowers);
-
-    // followers.then(res =>{this.setState({mountedApiFollowers: res.data})})
+   followers
+    .then(res =>{
+      console.log('read', res.data)
+      this.setState({mountedApiFollowers: res.data})
+    })
 
   }
 
@@ -36,7 +41,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <UserCard data={this.state.mountedApi}/>
-        {/* <FollowerCard data={this.state.mountedApiFollowers}/> */}
+        <FollowerCard followersData={this.state.mountedApiFollowers}/>
       </div>
     );
   }
