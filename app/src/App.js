@@ -9,7 +9,7 @@ export default class App extends Component {
     super(props);
 
     this.state= {
-      mountedApi: [],
+      mountedApi: {},
       mountedApiFollowers: []
     }
   }
@@ -17,25 +17,26 @@ export default class App extends Component {
   componentDidMount(){
     const gitApi = `https://api.github.com/users/mpereannor`
 
-    const gitApiFollowers = `https://api.github.com/users/mpereannor/followers`
+    // const gitApiFollowers = `https://api.github.com/users/mpereannor/followers`
 
-    const profile = axios.get (gitApi);
+    const profile = axios.get(gitApi);
 
     profile.then(res =>{
       this.setState({mountedApi: res.data})
         }
-
     )
 
-    const followers= axios.get(gitApiFollowers);
+    // const followers= axios.get(gitApiFollowers);
 
-    followers.then(res =>{this.setState({mountedApiFollowers: res.data})})
+    // followers.then(res =>{this.setState({mountedApiFollowers: res.data})})
 
   }
+
   render(){
     return (
       <div className="App">
-        <UserCard/>
+        <UserCard data={this.state.mountedApi}/>
+        {/* <FollowerCard data={this.state.mountedApiFollowers}/> */}
       </div>
     );
   }
