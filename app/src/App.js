@@ -1,32 +1,45 @@
 import React, {Component} from 'react';
 import './App.css';
+import axios from 'axios';
+import UserCard from './components/Usercard';
 
-class App extends Component {
+export default class App extends Component {
 
   constructor(props){
     super(props);
 
     this.state= {
-      mountedApi= [],
-    },
+      mountedApi: [],
+      mountedApiFollowers: []
+    }
   }
 
   componentDidMount(){
     const gitApi = `https://api.github.com/users/mpereannor`
 
-    axios.get(gitApi)
-    .then(res =>{
+    const gitApiFollowers = `https://api.github.com/users/mpereannor/followers`
+
+    const profile = axios.get (gitApi);
+
+    profile.then(res =>{
       this.setState({mountedApi: res.data})
         }
 
     )
+
+    const followers= axios.get(gitApiFollowers);
+
+    followers.then(res =>{this.setState({mountedApiFollowers: res.data})})
+
   }
   render(){
     return (
       <div className="App">
+        <UserCard/>
       </div>
     );
   }
 }
 
-export default App;
+
+
